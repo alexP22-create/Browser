@@ -1,0 +1,84 @@
+POSTOLACHE ALEXANDRU GABRIEL
+
+O sa explic pe fisiere si functii:
+
+======functions.c:
+	*Free_Page elibereaza memoria de la o adresa de tip pagina web,
+care ne trebuie la distrugerea stivelor cu pagini web. Se face typecast
+ca sa se acceseze si campul resources.
+	FCT de distrugere a stivei primeste pointer la functie de eliberare
+memorie pt un element de tip pagina web la care trb facut cast ca sa se
+acceseze un camp*.
+Nu voi mai explica toate functiile legate de stiva si cozi deoarece sunt standard
+
+======program.c:
+	*newtab, aloca un tab pe care l returneaza. Seteaza toate campurile la NULL
+	*Adauga_Tab, adauga un tab in lista de taburi si il seteaza ca tab curent
+	*deltab sterge un tab din lista de tabele. Lista de tabele incepe cu
+lista->next fiind primul tabel. Daca lista are doar un elem at campul lista->next
+devine NULL, iar daca nu eliminam ult elem folosind un pointer auxiliar
+care retine tabul anterior. La final se elibereaza memoria tabului p, distrugand
+stivele daca au fost initializate si pagina curenta
+	*change_tab, cauta tabelul cu indexul dat si il seteaza ca curent
+	*print_open_tabs, printeaza taburile deschise, adica url-urile paginilor curente
+ale fiecarui tabel din lista
+	*AlocWebPage, aloca o pagina web pe care o returneaza.Trimitem nr cu&
+ca sa se schimbe la iesirea din fct get_page_resources;
+	*Adauga_webPage, adauga o pagina web. Daca pagina curenta a tabului curent e goala,
+at devine aceasta cea curenta. In celalalt caz daca stiva de back e nula at se
+initializeaza si se adauga pagina curenta in stiva de back, iar aceasta trb eliberata
+dupa caci PushS are memcpy, dupa se seteaza noua pagina ca cea curenta. Dupa care
+se distruge stiva de forward si primeste NULL caci utilizatorul nu are ce pagini sa
+mai acceseze inainte.
+	*BACK, vrea sa mute vf din stiva de back ca pagina curenta in tabul
+curent. Daca lista de back e goala sau neinitializata at se scrie un
+mesaj. Daca nu se extrage pagina din stiva de back si se adauga cea
+curenta in stiva de forward, dupa care se elibereaza iar memoria de
+la adresa veche. In final se seteaza ca pagina curenta cea scoasa cu POP.
+	*FORWARD, ac lucru ca la back doar ca scoate pagina din vf ul stivei
+de back si o seteaza ca current, iar cea fosta curenta e adaugata in stiva
+de back.
+	*Print_history, printeaza coada istoricului. Parcurgerea se face folosind
+o coada auxiliara in care trecem elementele scoase cu Dequeue dupa ce
+le afisam, iar la final Mutam elem din aux inapoi in coada istoricului
+prin concatenare.
+	*del_history, sterge istoricul. Daca n este 0 se sterge tot prin
+Dequeue in ac variabila, care se elibereaza la final pt ulimul elem, iar
+daca n nu e 0 doar pt primele n elemente in ac metoda.	
+	*list_dl, Scrie dimensiunile resurselor unei pagini curente. i este
+folosit la numarat si indexat resursele
+	if-ul este pus pt testul 30 cand se primeste ca parametru o pagina nealocata
+	*print_downloads, printeaza resursele din coada descarcarilor
+nefinalizate si a listei de desc finalizate. Se parcurge coada cum am explicat
+mai sus. Elementele sunt adrese la resurse de aceea apare (*ae).dimension
+Lista se parcurge prin iteratie.
+	*download, "descarca" o resursa in coada de desc. Daca coada desc e goala
+at adaugam direct resursa. Daca nu trb parcursa ca mai sus si daca are
+dimensiunea mai mica decat elem scos at inseamna ca trb inserat inaintea
+lui. Deci mai intai adaugam resursa,dupa elem, dupa restul cozii si dupa
+concatenam aux in coada initiala. pushed spune cand ne oprim. Daca elem scos
+este ultimul si are dim mai mica ca resursa at inseram resursa la finalul
+cozii folosind coada auxiliara. ae trb alocat mereu inainte de Dequeue ca
+sa se suprascrie.
+	*Adauga_lista, adauga un elem in lista desc finale ca in orice alta
+lista. Elementele sunt adrese de resurse.
+	*WAIT, in biti retinem bitii totali care se elibereaza. Parcurgem ca 
+mai sus elementele cozii de desc pana se poate si pana se termina bitii. 
+Daca dim elem curent e mai mica ca biti, el se "descarca" in lista de 
+desc finalizate. Daca nu se modficia dim el curent si nr de biti e 0. 
+Se adauga la loc in coada. Distr coada aux si eliberam spatiul ocupat de el scos.
+	*free_all_Memory, elibereaza toata memoria ramasa din lista de tabele, 
+coada istoric, a desc si lista de desc finalizate.
+	*main, mai intai se deschid fisierele de citire si scriere. Se initializeaza
+lista de tabele cu tabelul curent, coada istoricului, coada descarcarilor
+si lista de desc finalizate. Cat timp se citesc linii, impartind cu strtok,
+se compara primul cuvant de pe linie cu numele comenzii si se aplica
+comanda respectiva. if(token!=NULL) este pus ca strcmp sa nu dea segfault,
+iar strtok primeste NULL la sf unui if ca sa nu intre in celelate.
+La iful cu goto se aplica wait pt 1 sec, si dupa se aloca pagina web care se 
+adauga ca pag curenta si al carui url se adauga in coada istoricului. La final 
+se inchid cele 2 fisiere si se aplica functia de eliberare a memoriei. 
+Listele sunt trimise cu & ca sa devina NULE sa iesirea din funct.
+
+
+
