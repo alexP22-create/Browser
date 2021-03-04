@@ -1,5 +1,10 @@
 POSTOLACHE ALEXANDRU GABRIEL
 
+check.sh is the checker i used to check my code, and the _test directory
+contains a lot of different inputs used by the checker. After running the
+checker a new directory will appear in _test which will contain my program's
+output for every input provided.
+
 O sa explic pe fisiere si functii:
 
 ======functions.c:
